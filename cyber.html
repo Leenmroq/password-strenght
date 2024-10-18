@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How strong is your password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fcf0f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: up;
+            align-items: center;
+            height: 400vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #f7dcdc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #F4C2C2;
+        }
+
+        .strength, .tips {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .leaderboard {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f1f1;
+        }
+
+        .masked-password {
+            font-style: italic;
+            color: #fae3e7;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>How strong is your password</h1>
+
+
+    <form id="student-form">
+        <input type="text" id="name" placeholder="Enter your name" required />
+        <input type="text" id="class" placeholder="Enter your class" required />
+        <input type="password" id="password" placeholder="Enter your password" required />
+        <label>
+            <input type="checkbox" id="toggle-password"> Show Password
+        </label>
+        <input type="submit" value="Submit" />
+        <div class="strength" id="strength-message"></div>
+        <div class="tips" id="password-tips"></div>
+    </form>
+	<h6>Leen Alroqaie</h6>
+    <div class="leaderboard">
+        <h2>Leaderboard - Strongest Passwords</h2>
+        <table id="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Password Strength</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Leaderboard entries will go here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let leaderboard = [];
+
+        document.getElementById('student-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const studentClass = document.getElementById('class').value;
+            const password = document.getElementById('password').value;
+
+            const strengthLevel = calculatePasswordStrength(password);
+            const strengthText = getStrengthText(strengthLevel);
+            document.getElementById('strength-message').innerText = `Password Strength: ${strengthText}`;
+
+            const tips = getPasswordTips(password);
+            document.getElementById('password-tips').innerHTML = tips ? `<strong>Tips:</strong> ${tips}` : '';
+
+            leaderboard.push({ name, class: studentClass, strengthLevel });
+            leaderboard.sort((a, b) => b.strengthLevel - a.strengthLevel);
+            updateLeaderboard();
+        });
+
+        document.getElementById('toggle-password').addEventListener('change', function() {
+            const passwordField = document.getElementById('password');
+            passwordField.type = this.checked ? 'text' : 'password';
+        });
+
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            if (password.length > 7) strength += 1; // Bonus point for >7 chars
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[a-z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[\W]/.test(password)) strength += 1;
+            return strength;
+        }
+
+        function getStrengthText(strengthLevel) {
+            if (strengthLevel <= 2) return 'Weak';
+            if (strengthLevel === 3 || strengthLevel === 4) return 'Moderate';
+            return 'Strong';
+        }
+
+        function getPasswordTips(password) {
+            let tips = [];
+            if (password.length <= 7) tips.push("Make your password longer than 7 characters.");
+            if (!/[A-Z]/.test(password)) tips.push("Add uppercase letters.");
+            if (!/[a-z]/.test(password)) tips.push("Add lowercase letters.");
+            if (!/[0-9]/.test(password)) tips.push("Add numbers.");
+            if (!/[\W]/.test(password)) tips.push("Add special characters (e.g., !, @, #).");
+            return tips.length > 0 ? tips.join(' ') : '';
+        }
+
+        function updateLeaderboard() {
+            const tableBody = document.querySelector('#leaderboard-table tbody');
+            tableBody.innerHTML = '';
+            leaderboard.forEach((entry, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.class}</td>
+                    <td>${getStrengthText(entry.strengthLevel)}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+		
+
+</body>
+</html>
