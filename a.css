@@ -1,0 +1,86 @@
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fcf0f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: up;
+            align-items: center;
+            height: 400vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #f7dcdc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #F4C2C2;
+        }
+
+        .strength, .tips {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .leaderboard {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f1f1;
+        }
+
+        .masked-password {
+            font-style: italic;
+            color: #fae3e7;
+        }
+    </style>
